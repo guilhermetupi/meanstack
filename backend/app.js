@@ -2,13 +2,15 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
+require('dotenv').config();
+
 const postsRoutes = require('./routes/posts');
 
 const app = express();
 
 mongoose
   .connect(
-    'mongodb+srv://gdtech:Jv8%25Wjmt%253%26b@cluster0.0rf6v.mongodb.net/node-angular?retryWrites=true&w=majority',
+    process.env.MONGO_URI,
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() => {
