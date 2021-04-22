@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 
 const postsRoutes = require('./routes/posts');
+const usersRoutes = require('./routes/users');
 
 const app = express();
 
@@ -39,5 +40,6 @@ app.use((req, res, next) => {
 });
 
 app.use('/api/posts', postsRoutes);
+app.use('/api/user', usersRoutes);
 
 module.exports = app;
