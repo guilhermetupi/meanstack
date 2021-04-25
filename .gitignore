@@ -50,3 +50,6 @@ Thumbs.db
 
 # Image files
 /backend/images
+
+# AWS key pai
+MEAN APP server.pem
