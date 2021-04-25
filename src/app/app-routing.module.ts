@@ -1,13 +1,11 @@
-import { AuthGuard } from './services/auth.guard';
-import { LoginComponent } from './login/login.component';
-import { SignupComponent } from './signup/signup.component';
+import { AuthGuard } from './auth/auth.guard';
 import { PostCreateComponent } from './posts/post-create/post-create.component';
 import { PostListComponent } from './posts/post-list/post-list.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', component: PostListComponent },
+  { path: '', component: PostListComponent, pathMatch: 'full' },
   {
     path: 'create',
     component: PostCreateComponent,
@@ -18,8 +16,10 @@ const routes: Routes = [
     component: PostCreateComponent,
     canActivate: [AuthGuard],
   },
-  { path: 'login', component: LoginComponent },
-  { path: 'signup', component: SignupComponent },
+  {
+    path: '',
+    loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
+  },
   { path: '**', redirectTo: '' },
 ];
 
