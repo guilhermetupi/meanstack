@@ -3,17 +3,27 @@
   <form (submit)="onSignup()"*ngIf="!isLoading" [formGroup]="form">
     <mat-form-field>
       <input matInput type="email" placeholder="Email" formControlName="email" />
-      <mat-error *ngIf="form.get('email').invalid">Please enter a valid email.</mat-error>
+      <mat-error *ngIf="form.get('email')?.errors?.email || form.get('email')?.errors?.required">Please enter a valid email.</mat-error>
+      <mat-error *ngIf="form.get('email')?.errors?.emailInUse">Email in use.</mat-error>
     </mat-form-field>
 
     <mat-form-field>
-      <input matInput type="password" placeholder="Password" formControlName="password" />
-      <mat-error *ngIf="form.get('password').invalid">Please a valid password.</mat-error>
+      <input
+        matInput name="password" type="password" placeholder="Password"
+        formControlName="password"
+        />
+      <mat-error *ngIf="form.get('password')?.errors?.required">Please a valid password.</mat-error>
+      <mat-error *ngIf="form.get('password')?.errors?.minlength">Password must have at least 6 characters.</mat-error>
     </mat-form-field>
 
     <mat-form-field>
-      <input matInput type="password" placeholder="Password confirmation" formControlName="passwordConfirm" />
-      <mat-error *ngIf="form.get('password').invalid">Please a valid password.</mat-error>
+      <input
+        matInput name="passwordConfirm" type="password" placeholder="Password confirmation"
+        formControlName="passwordConfirm"
+        />
+      <mat-error *ngIf="form.get('passwordConfirm')?.errors?.required">Please a valid password.</mat-error>
+      <mat-error *ngIf="form.get('passwordConfirm')?.errors?.minlength">Password must have at least 6 characters.</mat-error>
+      <mat-error *ngIf="form.get('passwordConfirm')?.errors?.unmatch">Password must match.</mat-error>
     </mat-form-field>
 
     <button mat-raised-button color="accent" type="submit">

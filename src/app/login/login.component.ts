@@ -1,18 +1,30 @@
+import { AuthService } from './../services/auth.service';
 import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   form: FormGroup;
   isLoading: boolean;
+  private authStatusSub: Subscription;
 
-  constructor() {}
+  constructor(public as: AuthService) {}
 
   ngOnInit(): void {
+    this.authStatusSub = this.as
+      .getAuthStatusListener()
+      .subscribe((authStatus) => {
+        if (authStatus?.error) {
+          this.form.get('email').setErrors({ authFailed: true });
+          this.form.get('password').setErrors({ authFailed: true });
+        }
+        this.isLoading = false;
+      });
     this.isLoading = false;
     this.form = new FormGroup({
       email: new FormControl(null, [Validators.required, Validators.email]),
@@ -24,6 +36,14 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin() {
-    console.log(this.form.value);
+    this.isLoading = true;
+    if (this.form.valid) {
+      this.as.loginUser(this.form.value.email, this.form.value.password);
+    }
+    this.isLoading = false;
+  }
+
+  ngOnDestroy() {
+    this.authStatusSub.unsubscribe();
   }
 }

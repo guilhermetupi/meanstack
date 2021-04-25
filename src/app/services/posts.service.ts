@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 export class PostsService {
   private posts: Post[] = [];
   private postsUpdated = new Subject<{ posts: Post[]; postCount: number }>();
+  postCreator = new Subject<string>();
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -29,6 +30,7 @@ export class PostsService {
                 content: post.content,
                 id: post._id,
                 imagePath: post.imagePath,
+                creator: post.creator,
               };
             }),
             totalPosts: postData.totalPosts,
@@ -54,6 +56,7 @@ export class PostsService {
       title: string;
       content: string;
       imagePath: string;
+      creator: string;
     }>('http://localhost:3000/api/posts/' + id);
   }
 

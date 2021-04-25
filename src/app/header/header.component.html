@@ -1,8 +1,9 @@
 <mat-toolbar color="primary">
     <span><a routerLink="/">MEAN Project</a></span>
     <ul>
-      <li><a mat-button routerLink="/create" routerLinkActive="mat-accent">Add posts</a></li>
-      <li><a mat-button routerLink="/login" routerLinkActive="mat-accent">Login</a></li>
-      <li><a mat-button routerLink="/signup" routerLinkActive="mat-accent">Sign Up</a></li>
+      <li *ngIf="isAuthenticated"><a mat-button routerLink="/create" routerLinkActive="mat-accent">New posts</a></li>
+      <li *ngIf="isAuthenticated"><a mat-button (click)="onLogout()">Logout</a></li>
+      <li *ngIf="!isAuthenticated"><a mat-button routerLink="/login" routerLinkActive="mat-accent">Login</a></li>
+      <li *ngIf="!isAuthenticated"><a mat-button routerLink="/signup" routerLinkActive="mat-accent">Sign Up</a></li>
     </ul>
 </mat-toolbar>
